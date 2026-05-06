@@ -1,4 +1,4 @@
-namespace TestHomework;
+namespace TestHomework.Models;
 
 public class AccountData
 {

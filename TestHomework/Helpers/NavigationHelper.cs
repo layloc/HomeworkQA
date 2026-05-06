@@ -1,6 +1,6 @@
 using OpenQA.Selenium;
 
-namespace TestHomework;
+namespace TestHomework.Helpers;
 
 public class NavigationHelper : HelperBase
 {

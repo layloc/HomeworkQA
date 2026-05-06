@@ -1,17 +1,15 @@
-namespace TestHomework;
+using TestHomework.Helpers;
 
-public class TestBase
+namespace TestHomework.Tests
 {
-    protected AppManager app;
+    public class TestBase
+    {
+        protected AppManager app;
 
-    [SetUp]
-    public void SetupTest()
-    {
-        app = new AppManager();
-    }
-    [TearDown]
-    public void TeardownTest()
-    {
-        app.Stop();
+        [SetUp]
+        public void SetupTest()
+        {
+            app = AppManager.GetInstance();
+        }
     }
 }

@@ -2,7 +2,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 
-namespace TestHomework;
+namespace TestHomework.Helpers;
 
 public class AppManager
 {
@@ -10,12 +10,15 @@ public class AppManager
     protected WebDriverWait wait;
     private string baseURL;
 
-    // Объявляем классы-помощники
     private NavigationHelper navigation;
     private LoginHelper auth;
     private EmployeeHelper employee;
 
-    public AppManager()
+    // 1. ThreadLocal переменная
+    private static ThreadLocal<AppManager> app = new ThreadLocal<AppManager>();
+
+    // 2. Приватный конструктор
+    private AppManager()
     {
         var options = new FirefoxOptions();
         options.BinaryLocation = @"D:\FirefoxPortable\App\Firefox64\firefox.exe";
@@ -25,22 +28,39 @@ public class AppManager
         driver.Manage().Window.Maximize();
         baseURL = "https://opensource-demo.orangehrmlive.com/web/index.php";
 
-        // Инициализируем помощников и передаем им себя (this)
         navigation = new NavigationHelper(this, baseURL);
         auth = new LoginHelper(this);
         employee = new EmployeeHelper(this);
     }
 
-    // Property для доступа к драйверу, ожиданию и хелперам
+    // 3. Метод GetInstance (инициализация один раз)
+    public static AppManager GetInstance()
+    {
+        if (!app.IsValueCreated)
+        {
+            AppManager newInstance = new AppManager();
+            newInstance.Navigation.GoToHomePage();
+            app.Value = newInstance;
+        }
+        return app.Value;
+    }
+
     public IWebDriver Driver => driver;
     public WebDriverWait Wait => wait;
     public NavigationHelper Navigation => navigation;
     public LoginHelper Auth => auth;
     public EmployeeHelper Employee => employee;
-
-    public void Stop()
+        
+    ~AppManager()
     {
-        driver.Quit();
-        driver.Dispose();
+        try
+        {
+            driver.Quit();
+            driver.Dispose();
+        }
+        catch (Exception)
+        {
+            
+        }
     }
 }

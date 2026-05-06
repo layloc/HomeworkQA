@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestHomework", "TestHomework\TestHomework.csproj", "{3250533A-8AA4-4DB7-9887-6EAC8E89E904}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDataGenerator", "TestDataGenerator\TestDataGenerator.csproj", "{769391DE-E979-4043-9D64-691204F2907D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{3250533A-8AA4-4DB7-9887-6EAC8E89E904}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3250533A-8AA4-4DB7-9887-6EAC8E89E904}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3250533A-8AA4-4DB7-9887-6EAC8E89E904}.Release|Any CPU.Build.0 = Release|Any CPU
+		{769391DE-E979-4043-9D64-691204F2907D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{769391DE-E979-4043-9D64-691204F2907D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{769391DE-E979-4043-9D64-691204F2907D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{769391DE-E979-4043-9D64-691204F2907D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

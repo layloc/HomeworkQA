@@ -1,31 +1,33 @@
-namespace TestHomework;
+using System.Xml.Serialization;
+using TestHomework.Models;
+
+namespace TestHomework.Tests;
 
 [TestFixture]
 public class OrangeHrmTests : TestBase
 {
-    [Test]
-    public void TestLoginOnly()
+    public static IEnumerable<EmployeeData> EmployeeDataFromXmlFile()
     {
-        app.Navigation.GoToHomePage();
-        AccountData user = new AccountData("Admin", "admin123");
-        app.Auth.Login(user);
-        Assert.That(app.Auth.IsLoggedIn(), Is.True, "Ошибка: Вход не выполнен!");
+        return (List<EmployeeData>)new XmlSerializer(typeof(List<EmployeeData>))
+            .Deserialize(new StreamReader(@"employees.xml"));
     }
-
-    [Test]
-    public void TestEmployeeCreation()
+        
+    [Test, TestCaseSource("EmployeeDataFromXmlFile")]
+    public void TestEmployeeCreation(EmployeeData newEmployee) // 3. Принимаем объект из файла
     {
         app.Navigation.GoToHomePage();
-        AccountData user = new AccountData("Admin", "admin123");
-        app.Auth.Login(user);
+        app.Auth.Login(new AccountData("Admin", "admin123"));
         app.Navigation.GoToPimPage();
-        EmployeeData newEmployee = new EmployeeData("John", "Doe")
-        {
-            EmployeeId = "QA" + new Random().Next(1000, 9999).ToString()
-        };
+
+        // Создаем сотрудника данными из XML файла!
         app.Employee.CreateNewEmployee(newEmployee);
-        Assert.That(app.Employee.IsEmployeeCreated(), Is.True, "Ошибка: Сотрудник не был создан!");
-        TestContext.Out.WriteLine($"УСПЕХ! Создан сотрудник: ID {newEmployee.EmployeeId}");
-        System.Threading.Thread.Sleep(5000); 
+
+        // Считываем сохраненные данные и сравниваем
+        EmployeeData savedEmployee = app.Employee.GetCreatedEmployeeData();
+            
+        Assert.That(savedEmployee.FirstName, Is.EqualTo(newEmployee.FirstName), "Имя не совпадает!");
+        Assert.That(savedEmployee.LastName, Is.EqualTo(newEmployee.LastName), "Фамилия не совпадает!");
+            
+        TestContext.Out.WriteLine($"УСПЕХ! Создан сотрудник {newEmployee.FirstName} с ID {newEmployee.EmployeeId}");
     }
 }

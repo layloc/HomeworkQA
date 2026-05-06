@@ -1,4 +1,4 @@
-namespace TestHomework;
+namespace TestHomework.Models;
 
 public class EmployeeData
 {
@@ -7,6 +7,7 @@ public class EmployeeData
         FirstName = firstName;
         LastName = lastName;
     }
+    public EmployeeData() { }
 
     public string FirstName { get; set; }
     public string LastName { get; set; }
